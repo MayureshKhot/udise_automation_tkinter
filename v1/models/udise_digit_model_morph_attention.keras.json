@@ -1,0 +1,12 @@
+{
+  "framework": "keras",
+  "image_size": 28,
+  "invert": true,
+  "digit_count": 11,
+  "dataset": "mnist+grid_artifact_augmentation",
+  "architecture": "morph_attention_cnn",
+  "use_morphology_cleaning": true,
+  "test_accuracy": 0.991599977016449,
+  "test_loss": 0.32217341661453247,
+  "epochs_ran": 12
+}

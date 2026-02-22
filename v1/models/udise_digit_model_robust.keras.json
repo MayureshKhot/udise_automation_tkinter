@@ -1,0 +1,17 @@
+{
+  "framework": "keras",
+  "image_size": 28,
+  "invert": true,
+  "digit_count": 11,
+  "dataset": "mnist+grid_artifact_augmentation",
+  "model_family": "depthwise_separable_cnn_dynamic_input",
+  "test_accuracy": 0.9898999929428101,
+  "test_loss": 0.030211951583623886,
+  "epochs_ran": 14,
+  "recommended_preprocess": {
+    "remove_vertical_lines": true,
+    "line_min_height_ratio": 0.75,
+    "line_max_width": 3,
+    "line_edge_margin": 4
+  }
+}

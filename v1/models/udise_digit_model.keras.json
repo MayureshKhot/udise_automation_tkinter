@@ -1,0 +1,10 @@
+{
+  "framework": "keras",
+  "image_size": 28,
+  "invert": true,
+  "digit_count": 11,
+  "dataset": "mnist",
+  "test_accuracy": 0.9954000115394592,
+  "test_loss": 0.01444263756275177,
+  "epochs_ran": 10
+}
