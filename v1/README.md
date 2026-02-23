@@ -20,6 +20,51 @@ pip install tensorflow
 python3 udise_ocr_tkinter_app.py
 ```
 
+## Build Distributables (Linux + Windows)
+This project now includes:
+- `udise_ocr_tkinter_app.spec` (PyInstaller build config)
+- `installer/UDISE_OCR_App.iss` (Inno Setup installer config)
+- `build_linux.sh` (Linux build script)
+- `build_windows.ps1` (one-command Windows build script)
+
+### Linux build (run on Linux)
+Prerequisites (Ubuntu/Debian):
+```bash
+sudo apt-get update
+sudo apt-get install -y python3-venv python3-tk
+```
+
+```bash
+cd v1
+./build_linux.sh 1.0.0
+```
+
+Linux outputs:
+- Portable app folder: `v1/dist/UDISE_OCR_App/`
+- Portable archive: `v1/dist/installer/UDISE_OCR_Linux_1.0.0_x86_64.tar.gz`
+
+Optional user install on Linux:
+```bash
+cd v1
+./installer/install_linux_user.sh
+```
+
+### Windows build (run on Windows)
+
+```powershell
+cd v1
+powershell -ExecutionPolicy Bypass -File .\build_windows.ps1 -AppVersion 1.0.0
+```
+
+Windows outputs:
+- Portable app folder: `v1/dist/UDISE_OCR_App/`
+- Installable setup `.exe`: `v1/dist/installer/UDISE_OCR_Installer.exe` (if Inno Setup `iscc` is installed)
+
+Notes:
+- The packaged app bundles `models/`, `udise_roi.json`, and `test_udise.xlsx`.
+- In packaged mode, default model/ROI/sample paths are auto-filled from the app install directory.
+- For best compatibility, build Linux artifacts on Linux and Windows artifacts on Windows (native builds).
+
 ## Simple usage (recommended flow)
 1. Select your input file in `Excel`.
 2. Choose where to save result in `Output Excel`.

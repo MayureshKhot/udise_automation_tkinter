@@ -13,6 +13,7 @@ Key upgrades:
 from __future__ import annotations
 
 import json
+import sys
 import threading
 from dataclasses import dataclass
 from pathlib import Path
@@ -45,6 +46,16 @@ from udise_ocr_pipeline import (
 DEFAULT_EXCEL = "test_udise.xlsx"
 DEFAULT_ROI_FILE = "udise_roi.json"
 DEFAULT_DIGIT_COUNT = 11
+
+
+def app_base_dir() -> Path:
+    """Return base directory for source runs and PyInstaller builds."""
+    if getattr(sys, "frozen", False):
+        meipass = getattr(sys, "_MEIPASS", None)
+        if meipass:
+            return Path(meipass)
+        return Path(sys.executable).resolve().parent
+    return Path(__file__).resolve().parent
 
 
 @dataclass
@@ -215,6 +226,7 @@ class UDISEOCRApp(tk.Tk):
         self.model_expected_hw: Optional[Tuple[int, int]] = None
 
         self._build_vars()
+        self._apply_packaged_defaults()
         self._build_styles()
         self._build_ui()
         self._on_framework_change()
@@ -280,6 +292,27 @@ class UDISEOCRApp(tk.Tk):
 
         self.pred_var = tk.StringVar(value="Prediction: model not loaded")
         self.status_var = tk.StringVar(value="Ready")
+
+    def _apply_packaged_defaults(self) -> None:
+        base = app_base_dir()
+
+        default_excel = base / DEFAULT_EXCEL
+        if default_excel.exists():
+            self.excel_var.set(str(default_excel))
+            if not self.output_excel_var.get().strip():
+                out = default_excel.with_name(f"{default_excel.stem}_with_udise.xlsx")
+                self.output_excel_var.set(str(out))
+
+        default_roi = base / DEFAULT_ROI_FILE
+        if default_roi.exists():
+            self.roi_file_var.set(str(default_roi))
+
+        default_model = base / "models" / "udise_digit_model_robust.keras"
+        if default_model.exists():
+            self.model_path_var.set(str(default_model))
+            default_cfg = Path(str(default_model) + ".json")
+            if default_cfg.exists():
+                self.model_config_var.set(str(default_cfg))
 
     def _build_styles(self) -> None:
         self.style = ttk.Style(self)
